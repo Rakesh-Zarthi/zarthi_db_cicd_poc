@@ -1,0 +1,40 @@
+{
+  "psql": {
+    "path": "C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe"
+  },
+
+  "repository": {
+    "root": "C:\\Git\\zarthi_db_cicd_poc_kuldeep"
+  },
+
+  "environments": {
+
+    "dev": {
+      "host": "zarthi-db.cdkci2uiuggu.ap-south-1.rds.amazonaws.com",
+      "port": 5432,
+      "database": "zarthi_dev",
+      "username": "zarthi_cicd",
+      "password": "zarthi@2026",
+      "outputFolder": "zarthi_dev"
+    },
+
+    "stage": {
+      "host": "zarthi-staging-rds.cr2oyswo2qe4.ap-south-1.rds.amazonaws.com",
+      "port": 5432,
+      "database": "zarthi_stage_v3",
+      "username": "zarthi_cicd",
+      "password": "zarthi@2026",
+      "outputFolder": "zarthi_stage"
+    },
+
+    "prod": {
+      "host": "production-zarthi.cnwgqeaiocke.ap-south-1.rds.amazonaws.com",
+      "port": 5432,
+      "database": "zarthi_prod",
+      "username": "zarthi_cicd",
+      "password": "zarthi@2026",
+      "outputFolder": "zarthi_prod"
+    }
+
+  }
+}
