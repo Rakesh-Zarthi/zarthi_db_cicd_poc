@@ -1,0 +1,12 @@
+# Logs
+logs/
+
+# Log files
+*.log
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/

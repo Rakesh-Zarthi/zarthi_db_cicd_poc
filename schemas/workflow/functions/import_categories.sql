@@ -1,0 +1,108 @@
+CREATE OR REPLACE FUNCTION workflow.import_categories()
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'workflow', 'public'
+AS $function$
+
+DECLARE
+
+    v_config jsonb;
+
+
+
+    v_actionable_name text;
+
+    v_actionable jsonb;
+
+
+
+    v_category text;
+
+BEGIN
+
+
+
+    FOR v_config IN
+
+        SELECT actionable_config
+
+        FROM public.actionables_execution_metadata
+
+        WHERE actionable_config IS NOT NULL
+
+    LOOP
+
+
+
+        FOR v_actionable_name, v_actionable IN
+
+            SELECT key, value
+
+            FROM jsonb_each(v_config -> 'Request' -> 'Actionable')
+
+        LOOP
+
+
+
+            v_category := trim(v_actionable ->> 'Category');
+
+
+
+            IF v_category IS NULL OR v_category = '' THEN
+
+                CONTINUE;
+
+            END IF;
+
+
+
+            INSERT INTO workflow.category
+
+            (
+
+                in_record_name,
+
+                category_name,
+
+                category_api_name,
+
+                description,
+
+                is_active
+
+            )
+
+            VALUES
+
+            (
+
+                v_category,
+
+                v_category,
+
+                lower(regexp_replace(v_category,'[^a-zA-Z0-9]+','_','g')),
+
+                v_category || ' Category',
+
+                TRUE
+
+            )
+
+            ON CONFLICT (category_api_name)
+
+            DO NOTHING;
+
+
+
+        END LOOP;
+
+
+
+    END LOOP;
+
+
+
+END;
+
+$function$
